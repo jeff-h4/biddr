@@ -25,29 +25,20 @@ class AuctionsController < ApplicationController
   # POST /auctions.json
   def create
     @auction = Auction.new(auction_params)
-
-    respond_to do |format|
-      if @auction.save
-        format.html { redirect_to @auction, notice: 'Auction was successfully created.' }
-        format.json { render :show, status: :created, location: @auction }
-      else
-        format.html { render :new }
-        format.json { render json: @auction.errors, status: :unprocessable_entity }
-      end
+    if @auction.save
+      redirect_to @auction, notice: 'Auction was successfully created.'
+    else
+      render :new 
     end
   end
 
   # PATCH/PUT /auctions/1
   # PATCH/PUT /auctions/1.json
   def update
-    respond_to do |format|
-      if @auction.update(auction_params)
-        format.html { redirect_to @auction, notice: 'Auction was successfully updated.' }
-        format.json { render :show, status: :ok, location: @auction }
-      else
-        format.html { render :edit }
-        format.json { render json: @auction.errors, status: :unprocessable_entity }
-      end
+    if @auction.update(auction_params)
+      redirect_to @auction, notice: 'Auction was successfully updated.'
+    else
+      render :edit
     end
   end
 
@@ -55,10 +46,8 @@ class AuctionsController < ApplicationController
   # DELETE /auctions/1.json
   def destroy
     @auction.destroy
-    respond_to do |format|
-      format.html { redirect_to auctions_url, notice: 'Auction was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to auctions_url, notice: 'Auction was successfully destroyed.' 
+    head :no_content 
   end
 
   private
