@@ -10,6 +10,7 @@
     <ul class="nav navbar-nav navbar-right">
       <% if user_signed_in? %>
         <li>Hello <%= current_user.first_name %></li>
+        <li><%= link_to "View My Bids", current_user %></li>
         <li><%= link_to "Sign out", sessions_path, method: :delete %></li>
       <% else %>
         <li><%= link_to "Sign in", new_session_path %></li>

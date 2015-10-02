@@ -2,6 +2,10 @@
 
 <%= render "layouts/flash" %>
 <p>
+  <strong>Seller:</strong>
+  <%= @auction.user.full_name %>
+</p>
+<p>
   <strong>Title:</strong>
   <%= @auction.title %>
 </p>
@@ -24,10 +28,28 @@
   <strong>Current price:</strong>
   <%= @auction.current_price%>
 </p>
-<h2> Make a bid</h2>
-<%= simple_form_for [@auction, @bid] do |f| %>
-  <%= f.input :amount %>
-  <%= f.submit %>
+<% unless current_user == @auction.user %>
+  <h2>Make a bid</h2>
+  <%= simple_form_for [@auction, @bid] do |f| %>
+    <%= f.input :amount %>
+    <%= f.submit %>
+  <% end %>
 <% end %>
+<h2>Bid List</h2>
+<table>
+  <thead>
+    <th>Bid Amount</th>
+    <th>Bidder</th>
+  </thead>
+  <tbody>
+    <% @auction.bids.reverse.each do |b| %>
+      <tr>
+        <td>$<%= b.amount %></td>
+        <td><%= b.user.full_name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
 <%= link_to 'Edit', edit_auction_path(@auction) %> |
 <%= link_to 'Back', auctions_path %>

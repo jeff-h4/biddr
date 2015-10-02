@@ -1,0 +1,17 @@
+<h1> List of My Bids </h1>
+<div class="container">
+  <table>
+    <thead>
+      <th>Auction</th>
+      <th>Bid Amount</th>
+    </thead>
+    <tbody>
+      <% current_user.bids.each do |b| %>
+        <tr>
+          <td><%= b.auction.title %></td>
+          <td>$<%= b.amount %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
