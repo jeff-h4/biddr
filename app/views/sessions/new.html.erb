@@ -1,17 +1,7 @@
 <h1>Sign In</h1>
 
-<%#= render 'form' %>
-<div class="container">
-  <% if flash[:notice] %>
-    <div class="container" style="background-color: lime">
-      <%= flash[:notice] %>
-    </div>
-  <% elsif flash[:alert] %>
-    <div class="container" style="background-color: pink">
-      <%= flash[:alert] %>
-    </div>
-  <% end %>
-</div>
+<%= render 'layouts/flash' %>
+
 <%= form_tag sessions_path, method: :post do %>
   <div class="form-group">
     <%= label_tag :email %>

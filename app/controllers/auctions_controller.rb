@@ -11,6 +11,7 @@ class AuctionsController < ApplicationController
   # GET /auctions/1
   # GET /auctions/1.json
   def show
+    @bid = Bid.new
   end
 
   # GET /auctions/new

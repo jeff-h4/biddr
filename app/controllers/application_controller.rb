@@ -21,5 +21,10 @@ class ApplicationController < ActionController::Base
     session[:user_id] = user.id
   end
 
+  def update_auction_current_price(auction,current_bid)
+    auction.current_price = current_bid + 1
+    auction.save
+  end
+  helper_method :update_auction_current_price
 
 end

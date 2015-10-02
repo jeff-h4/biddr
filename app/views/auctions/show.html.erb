@@ -1,5 +1,6 @@
 <p id="notice"><%= notice %></p>
 
+<%= render "layouts/flash" %>
 <p>
   <strong>Title:</strong>
   <%= @auction.title %>
@@ -23,6 +24,10 @@
   <strong>Current price:</strong>
   <%= @auction.current_price%>
 </p>
-
+<h2> Make a bid</h2>
+<%= simple_form_for [@auction, @bid] do |f| %>
+  <%= f.input :amount %>
+  <%= f.submit %>
+<% end %>
 <%= link_to 'Edit', edit_auction_path(@auction) %> |
 <%= link_to 'Back', auctions_path %>

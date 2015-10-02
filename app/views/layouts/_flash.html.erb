@@ -1,0 +1,11 @@
+<div class="container">
+  <% if flash[:notice] %>
+    <div class="container" style="background-color: lime">
+      <%= flash[:notice] %>
+    </div>
+  <% elsif flash[:alert] %>
+    <div class="container" style="background-color: pink">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+</div>
