@@ -26,6 +26,8 @@ class AuctionsController < ApplicationController
   # POST /auctions.json
   def create
     @auction = Auction.new(auction_params)
+    @auction.user = current_user
+    @auction.current_price = 1;
     if @auction.save
       redirect_to @auction, notice: 'Auction was successfully created.'
     else

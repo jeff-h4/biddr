@@ -19,6 +19,10 @@
   <strong>Reserve price:</strong>
   <%= @auction.reserve_price %>
 </p>
+<p>
+  <strong>Current price:</strong>
+  <%= @auction.current_price%>
+</p>
 
 <%= link_to 'Edit', edit_auction_path(@auction) %> |
 <%= link_to 'Back', auctions_path %>
