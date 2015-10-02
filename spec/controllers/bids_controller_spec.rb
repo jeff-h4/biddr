@@ -11,36 +11,35 @@ RSpec.describe BidsController, type: :controller do
 
   describe "POST #create" do
     context "with valid parameters" do
-      def valid_request
-        post :create, bid: attributes_for(:bid)
+      before do
+        auction_owner   = create(:user)
+        @auction = create(:auction, user: auction_owner)
+        @user    = create(:user)
+        login(@user)
       end
       it "is added to the Bids database" do
-        valid_request
+        my_params = {auction_id: @auction.id, bid: attributes_for(:bid).merge({user: @user})}
+        post :create, my_params
         expect(Bid.count).to eq(1)
       end
       it "is associated with the current user" do
-        user    = create(:user)
-        login(user)
-        post :create, bid: attributes_for(:bid).merge({user: user})
-        expect(Bid.last.user.id).to eq(user.id)
+        my_params = {auction_id: @auction.id, bid: attributes_for(:bid).merge({user: @user})}
+        post :create, my_params
+        expect(Bid.last.user.id).to eq(@user.id)
       end
       it "is associated with an auction" do
-        auction_owner   = create(:user)
-        user            = create(:user)
-        login(user)
-        auction = create(:auction, user: auction_owner)
-        post :create, auction_id: auction.id, bid: attributes_for(:bid).merge({auction: auction})
-        expect(Bid.last.auction.id).to eq(auction.id)
+        my_params = {auction_id: @auction.id, bid: attributes_for(:bid).merge({auction: @auction})}
+        post :create, my_params
+        expect(Bid.last.auction.id).to eq(@auction.id)
       end
       it "redirects to the Auction Show page" do
-        user    = create(:user)
-        auction = create(:auction, user: user)
-        bid     = create(:bid, auction: auction)
-        post :create,  bid: bid
-        expect(response).to redirect_to auctions_path (Bid.last.auction)
+        my_params = {auction_id: @auction.id, bid: attributes_for(:bid).merge({auction: @auction})}
+        post :create,  my_params
+        expect(response).to redirect_to("/auctions/" + Bid.last.auction_id.to_s)
       end
       it "sets a flash notice message" do
-        valid_request
+        my_params = {auction_id: @auction.id, bid: attributes_for(:bid).merge({auction: @auction})}
+        post :create,  my_params
         expect(flash[:notice]).to be
       end
     end
