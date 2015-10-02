@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
+  root 'auction#index'
   resources :auctions
+  resources :sessions, only: [:new,:create] do
+    delete :destroy, on: :collection
+  end
+  resources :users, only: [:new,:create]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
