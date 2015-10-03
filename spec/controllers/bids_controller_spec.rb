@@ -2,13 +2,6 @@ require 'rails_helper'
 
 RSpec.describe BidsController, type: :controller do
 
-  describe "GET #new" do
-    it "returns http success" do
-      get :new
-      expect(response).to have_http_status(:success)
-    end
-  end
-
   describe "POST #create" do
     context "with valid parameters" do
       before do
@@ -46,34 +39,21 @@ RSpec.describe BidsController, type: :controller do
     context "with invalid parameters" do
       def invalid_request
         user    = create(:user)
-        auction = create(:auction, user: user)
-        bid     = create(:bid, auction: auction, amount: -1)
-        post :create,  bid: bid
+        login(user)
+        @auction = create(:auction, user: user)
+        my_params = {auction_id: @auction.id, bid: attributes_for(:bid).merge({user: user,
+                                                                               amount: -1,
+                                                                               auction: @auction})}
+        post :create,  my_params
       end
       it "does not modify the Bids database" do
+        invalid_request
+        expect(Bid.count).to eq(0)
       end
       it "sets a flash alert message" do
         invalid_request
         expect(flash[:alert]).to be
       end
-      it "renders the Auction Show page" do
-        invalid_request
-        expect(response).to render_template(auction.id)
-      end
-    end
-  end
-
-  describe "GET #edit" do
-    it "returns http success" do
-      get :edit
-      expect(response).to have_http_status(:success)
-    end
-  end
-
-  describe "GET #update" do
-    it "returns http success" do
-      get :update
-      expect(response).to have_http_status(:success)
     end
   end
 

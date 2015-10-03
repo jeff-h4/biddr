@@ -3,15 +3,16 @@ class BidsController < ApplicationController
   end
 
   def create
+    @auction = Auction.find params[:auction_id]
     @bid = Bid.new bid_params
     @bid.user = current_user
-    @bid.auction = Auction.find params[:auction_id]
+    @bid.auction = @auction
     if @bid.save
       update_auction_current_price(@bid.auction,@bid.amount)
       redirect_to @bid.auction, notice: "Bid Successful"
     else 
-      #render auction_path(@bid.auction), alert: "Bid Failed!"
-      redirect_to "/auctions/" + @bid.auction.id.to_s, alert: "Bid Failed!"
+     flash[:alert] = "Bid Failed!"
+     render "/auctions/show"
     end
   end
 
