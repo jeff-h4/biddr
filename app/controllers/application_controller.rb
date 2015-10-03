@@ -26,5 +26,11 @@ class ApplicationController < ActionController::Base
     auction.save
   end
   helper_method :update_auction_current_price
+  def check_reserve_price_met(auction)
+    if auction.current_price >= auction.reserve_price
+      auction.surpassed_reserve!
+    end
+  end
+  helper_method :check_reserve_price_met
 
 end

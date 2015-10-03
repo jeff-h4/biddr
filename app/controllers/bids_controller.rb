@@ -9,6 +9,7 @@ class BidsController < ApplicationController
     @bid.auction = @auction
     if @bid.save
       update_auction_current_price(@bid.auction,@bid.amount)
+      check_reserve_price_met(@bid.auction)
       redirect_to @bid.auction, notice: "Bid Successful"
     else 
      flash[:alert] = "Bid Failed!"

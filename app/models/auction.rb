@@ -10,13 +10,13 @@ class Auction < ActiveRecord::Base
 
   aasm whiny_transitions: false do
     state :published, initial: true
-    state :reserved_met
+    state :reserve_met
     state :won
     state :cancelled
-    state :reserved_not_met
+    state :reserve_not_met
 
-    event :campaign_end do
-      transitions from: :published, to: [:reserved_not_met, :reserved_met, :won]
+    event :surpassed_reserve do
+      transitions from: :published, to: :reserve_met
     end
 
     event :cancel do

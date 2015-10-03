@@ -21,8 +21,16 @@
 </p>
 
 <p>
-  <strong>Reserve price:</strong>
+  <strong>Not-So-Secret Reserve price:</strong>
   <%= @auction.reserve_price %>
+</p>
+<p>
+  <strong>Reserve Status</strong>
+  <% if @auction.aasm_state == "reserve_met" %>
+    Reserve Met
+  <% else %>
+    Reserve Not Met
+  <% end %>
 </p>
 <p>
   <strong>Current price:</strong>
